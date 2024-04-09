@@ -146,3 +146,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
     http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
 }
+
+func Logout(w http.ResponseWriter, r *http.Request) {
+	deleteSession(w, r)
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
+}

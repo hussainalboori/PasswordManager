@@ -63,3 +63,6 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	// Redirect the user to the login page
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
+
+
+
