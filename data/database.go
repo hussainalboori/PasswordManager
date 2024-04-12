@@ -39,17 +39,18 @@ func CreateDatabaseIfNotExists(dbFilePath string) error {
 }
 
 func createTables(db *sql.DB) error {
-	// SQL statements to create tables
-	createUserTableSQL := `
+    // SQL statements to create tables
+    createUserTableSQL := `
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE NOT NULL,
             email TEXT UNIQUE NOT NULL,
             password_hash TEXT NOT NULL,
+            key TEXT NOT NULL, -- Add a key field
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
     `
-	createPasswordTableSQL := `
+    createPasswordTableSQL := `
         CREATE TABLE IF NOT EXISTS passwords (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
@@ -61,16 +62,16 @@ func createTables(db *sql.DB) error {
         );
     `
 
-	// Execute SQL statements to create tables
-	_, err := db.Exec(createUserTableSQL)
-	if err != nil {
-		return err
-	}
+    // Execute SQL statements to create tables
+    _, err := db.Exec(createUserTableSQL)
+    if err != nil {
+        return err
+    }
 
-	_, err = db.Exec(createPasswordTableSQL)
-	if err != nil {
-		return err
-	}
+    _, err = db.Exec(createPasswordTableSQL)
+    if err != nil {
+        return err
+    }
 
-	return nil
+    return nil
 }
