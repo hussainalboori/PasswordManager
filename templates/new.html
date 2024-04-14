@@ -10,6 +10,8 @@
     <p><strong>User ID:</strong> {{ .UserID }}</p>
     <p><strong>Username:</strong> {{ .Username }}</p>
     <form action="/dashboard/new" method="post">
+        <!-- Include a hidden input field for user ID -->
+        <input type="hidden" id="userId" name="userId" value="{{ .UserID }}">
         <label for="website">Website:</label><br>
         <input type="text" id="website" name="website" required><br><br>
         <label for="username">Username:</label><br>
