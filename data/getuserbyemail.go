@@ -33,31 +33,32 @@ func GetUserByEmail(email string) (*User, error) {
 		log.Printf("Error retrieving user: %v", err)
 		return nil, err
 	}
-
+	log.Printf("user id %d\n", user.ID)
+	log.Printf("user id %v\n", user.Username)
 	return &user, nil
 }
 
 func GetUserByID(userID int) (*User, error) {
-    // Open a database connection
-    db, err := sql.Open("sqlite3", "data.db")
-    if err != nil {
-        return nil, err
-    }
-    defer db.Close()
+	// Open a database connection
+	db, err := sql.Open("sqlite3", "data.db")
+	if err != nil {
+		return nil, err
+	}
+	defer db.Close()
 
-    // Query the database to retrieve the user with the specified ID
-    query := "SELECT id, username, email FROM users WHERE id = ?"
-    row := db.QueryRow(query, userID)
+	// Query the database to retrieve the user with the specified ID
+	query := "SELECT id, username, email FROM users WHERE id = ?"
+	row := db.QueryRow(query, userID)
 
-    // Initialize a User struct to store the retrieved user data
-    user := &User{}
+	// Initialize a User struct to store the retrieved user data
+	user := &User{}
 
-    // Scan the row and populate the User struct with the retrieved data
-    err = row.Scan(&user.ID, &user.Username, &user.Email)
-    if err != nil {
-        // Handle the error, e.g., user not found
-        return nil, err
-    }
+	// Scan the row and populate the User struct with the retrieved data
+	err = row.Scan(&user.ID, &user.Username, &user.Email)
+	if err != nil {
+		// Handle the error, e.g., user not found
+		return nil, err
+	}
 
-    return user, nil
+	return user, nil
 }
