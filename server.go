@@ -22,6 +22,7 @@ func main() {
 	}
 	defer db.Close()
 	port := ":8080" // Port to run the server on
+	http.HandleFunc("/", handler.Handleindex)
 	http.HandleFunc("/signup", handler.Signup)
 	http.HandleFunc("/login", handler.Login)
 	http.HandleFunc("/dashboard", handler.Dashboard)
