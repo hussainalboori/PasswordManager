@@ -33,8 +33,6 @@ func GetUserByEmail(email string) (*User, error) {
 		log.Printf("Error retrieving user: %v", err)
 		return nil, err
 	}
-	log.Printf("user id %d\n", user.ID)
-	log.Printf("user id %v\n", user.Username)
 	return &user, nil
 }
 

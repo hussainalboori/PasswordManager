@@ -4,12 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Password</title>
+    <script>
+        window.onload = function() {
+            var form = document.getElementById("passwordForm");
+            var saveButton = document.getElementById("saveButton");
+            saveButton.onclick = function() {
+                form.submit();
+            }
+        }
+    </script>
 </head>
 <body>
     <h1>New Password</h1>
     <p><strong>User ID:</strong> {{ .UserID }}</p>
     <p><strong>Username:</strong> {{ .Username }}</p>
-    <form action="/dashboard/new" method="post">
+    <form id="passwordForm" action="/dashboard/new" method="post">
         <!-- Include a hidden input field for user ID -->
         <input type="hidden" id="userId" name="userId" value="{{ .UserID }}">
         <label for="website">Website:</label><br>
@@ -18,7 +27,7 @@
         <input type="text" id="username" name="username" required><br><br>
         <label for="password">Password:</label><br>
         <input type="password" id="password" name="password" required><br><br>
-        <input type="submit" value="Save Password">
+        <input id="saveButton" type="button" value="Save Password">
     </form>
 </body>
 </html>

@@ -4,6 +4,8 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
+	"database/sql"
+
 	// "encoding/base64"
 	"fmt"
 	"io"
@@ -57,31 +59,18 @@ func Decrypt(ciphertext []byte, secretKey []byte) ([]byte, error) {
 	return ciphertext, nil
 }
 
-// func main() {
-// 	keyLength := 32 // Length of the AES key (in bytes)
-// 	key, err := GenerateRandomKey(keyLength)
-// 	if err != nil {
-// 		fmt.Println("Error generating key:", err)
-// 		return
-// 	}
-
-// 	fmt.Println("Key:", key)
-
-// 	plaintext := []byte("password123")
-// 	encrypted, err := Encrypt(plaintext, key)
-// 	if err != nil {
-// 		fmt.Println("Encryption error:", err)
-// 		return
-// 	}
-
-// 	// Store 'encrypted' in the database
-
-// 	decrypted, err := Decrypt(encrypted, key)
-// 	if err != nil {
-// 		fmt.Println("Decryption error:", err)
-// 		return
-// 	}
-
-// 	fmt.Println("Original:", string(plaintext))
-// 	fmt.Println("Decrypted:", string(decrypted))
-// }
+func GetKeyByID(id int) ([]byte, error) {
+	db, err := sql.Open("sqlite3", "data.db")
+	if err != nil {
+		return nil, err
+	}
+	defer db.Close()
+	query := "SELECT key FROM users WHERE id = ?"
+	row := db.QueryRow(query, id)
+	key := []byte{}
+	err = row.Scan(&key)
+	if err != nil {
+		return nil, err
+	}
+	return key, nil
+}

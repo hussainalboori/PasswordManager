@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"encoding/base64"
 	"html/template"
 	"log"
 	"net/http"
@@ -52,7 +51,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		log.Printf("Error generating random key: %v", err)
 		return
-	}else {
+	} else {
 		log.Println("encrption Key has been created")
 	}
 
@@ -62,20 +61,19 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		log.Printf("Error hashing password: %v", err)
 		return
-	}else {
+	} else {
 		log.Println("hased Password Has Benn Created")
 	}
 
 	// Convert random key to base64 string
-	randomKeyStr := base64.StdEncoding.EncodeToString(randomKey)
 
 	// Insert the user into the database with the random key
-	err = data.InsertUser(username, email, passwordHash, randomKeyStr)
+	err = data.InsertUser(username, email, passwordHash, randomKey)
 	if err != nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		log.Printf("Error inserting user into database: %v", err)
 		return
-	}else {
+	} else {
 		log.Println("New User Has Been Added To Database")
 		log.Printf("User Name: %v", username)
 		log.Printf("email: %v", email)

@@ -5,12 +5,12 @@ import (
 	"log"
 )
 
-func InsertUser(username, email, passwordHash, key string) error {
+func InsertUser(username, email, passwordHash string, key []byte) error {
 	// SQL statement to insert a new user
 	insertUserSQL := `
-        INSERT INTO users (username, email, password_hash, key)
-        VALUES (?, ?, ?, ?);
-    `
+		INSERT INTO users (username, email, password_hash, key)
+		VALUES (?, ?, ?, ?);
+	`
 
 	// Open a connection to the SQLite3 database
 	db, err := sql.Open("sqlite3", "data.db")
