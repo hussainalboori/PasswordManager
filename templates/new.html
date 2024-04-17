@@ -8,9 +8,33 @@
         window.onload = function() {
             var form = document.getElementById("passwordForm");
             var saveButton = document.getElementById("saveButton");
+            var generateButton = document.getElementById("generateButton");
+            var passwordInput = document.getElementById("password");
+            var showPasswordCheckbox = document.getElementById("showPassword");
+
+            // Function to generate a random password
+            function generateRandomPassword() {
+                var length = 12; // Set the desired length of the password
+                var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+";
+                var password = "";
+                for (var i = 0; i < length; i++) {
+                    var randomIndex = Math.floor(Math.random() * charset.length);
+                    password += charset.charAt(randomIndex);
+                }
+                return password;
+            }
+
+            generateButton.onclick = function() {
+                passwordInput.value = generateRandomPassword();
+            };
+
+            showPasswordCheckbox.onchange = function() {
+                passwordInput.type = showPasswordCheckbox.checked ? "text" : "password";
+            };
+
             saveButton.onclick = function() {
                 form.submit();
-            }
+            };
         }
     </script>
 </head>
@@ -27,6 +51,9 @@
         <input type="text" id="username" name="username" required><br><br>
         <label for="password">Password:</label><br>
         <input type="password" id="password" name="password" required><br><br>
+        <input id="generateButton" type="button" value="Generate Password"><br><br>
+        <input id="showPassword" type="checkbox">
+        <label for="showPassword">Show Password</label><br><br>
         <input id="saveButton" type="button" value="Save Password">
     </form>
 </body>
