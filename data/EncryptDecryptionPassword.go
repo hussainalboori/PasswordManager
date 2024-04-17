@@ -5,8 +5,6 @@ import (
 	"crypto/cipher"
 	"crypto/rand"
 	"database/sql"
-
-	// "encoding/base64"
 	"fmt"
 	"io"
 )
@@ -41,14 +39,14 @@ func Encrypt(plaintext []byte, secretKey []byte) ([]byte, error) {
 }
 
 // Decrypt decrypts a ciphertext with the secret key using AES
-func Decrypt(ciphertext []byte, secretKey []byte) ([]byte, error) {
+func Decrypt(ciphertext []byte, secretKey []byte) (string, error) {
 	block, err := aes.NewCipher(secretKey)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	if len(ciphertext) < aes.BlockSize {
-		return nil, fmt.Errorf("ciphertext too short")
+		return "", fmt.Errorf("ciphertext too short")
 	}
 	iv := ciphertext[:aes.BlockSize]
 	ciphertext = ciphertext[aes.BlockSize:]
@@ -56,7 +54,7 @@ func Decrypt(ciphertext []byte, secretKey []byte) ([]byte, error) {
 	stream := cipher.NewCFBDecrypter(block, iv)
 	stream.XORKeyStream(ciphertext, ciphertext)
 
-	return ciphertext, nil
+	return string(ciphertext), nil
 }
 
 func GetKeyByID(id int) ([]byte, error) {

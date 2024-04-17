@@ -10,7 +10,17 @@
     <div>
         <p><strong>User ID:</strong> {{ .UserID }}</p>
         <p><strong>Username:</strong> {{ .Username }}</p>
-        <li><a href="/dashboard/new">add new password</a></li>
+        <ul>
+            <!-- List of passwords here -->
+            {{ range .Passwords }}
+                <li>
+                    <p><strong>Website:</strong> {{ .Website }}</p>
+                    <p><strong>Username:</strong> {{ .Username }}</p>
+                    <p><strong>Password:</strong> {{ .Password }}</p>
+                </li>
+            {{ end }}
+        </ul>
+        <li><a href="/dashboard/new">Add New Password</a></li>
     </div>
 </body>
 </html>
