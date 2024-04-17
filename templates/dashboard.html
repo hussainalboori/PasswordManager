@@ -4,6 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <style>
+        .password {
+            display: none;
+        }
+    </style>
+   <script>
+    window.onload = function() {
+        var showPasswordsButton = document.getElementById("showPasswords");
+        var passwordItems = document.querySelectorAll(".password");
+
+        showPasswordsButton.onclick = function() {
+            passwordItems.forEach(function(item) {
+                if (item.style.display === "none") {
+                    item.style.display = "inline"; // Show passwords
+                    showPasswordsButton.textContent = "Hide Passwords";
+                } else {
+                    item.style.display = "none"; // Hide passwords
+                    showPasswordsButton.textContent = "Show Passwords";
+                }
+            });
+        };
+    };
+</script>
 </head>
 <body>
     <h1>Welcome to the Dashboard</h1>
@@ -16,10 +39,11 @@
                 <li>
                     <p><strong>Website:</strong> {{ .Website }}</p>
                     <p><strong>Username:</strong> {{ .Username }}</p>
-                    <p><strong>Password:</strong> {{ .Password }}</p>
+                    <p><strong>Password:</strong> <span class="password">{{ .Password }}</span></p>
                 </li>
             {{ end }}
         </ul>
+        <button id="showPasswords">Show Passwords</button>
         <li><a href="/dashboard/new">Add New Password</a></li>
     </div>
 </body>
