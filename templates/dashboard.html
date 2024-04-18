@@ -33,16 +33,20 @@
     <div>
         <p><strong>User ID:</strong> {{ .UserID }}</p>
         <p><strong>Username:</strong> {{ .Username }}</p>
-        <ul>
-            <!-- List of passwords here -->
-            {{ range .Passwords }}
-                <li>
-                    <p><strong>Website:</strong> {{ .Website }}</p>
-                    <p><strong>Username:</strong> {{ .Username }}</p>
-                    <p><strong>Password:</strong> <span class="password">{{ .Password }}</span></p>
-                </li>
-            {{ end }}
-        </ul>
+        <form id="deleteForm" method="POST" action="/dashboard/delete">
+            <ul>
+                <!-- List of passwords here -->
+                {{ range .Passwords }}
+                    <li>
+                        <p><strong>Website:</strong> {{ .Website }}</p>
+                        <p><strong>Username:</strong> {{ .Username }}</p>
+                        <p><strong>Password:</strong> <span class="password">{{ .Password }}</span></p>
+                        <!-- Delete button -->
+                        <button type="submit" name="id" value="{{ .Id }}">Delete</button>
+                    </li>
+                {{ end }}
+            </ul>
+        </form>
         <button id="showPasswords">Show Passwords</button>
         <li><a href="/dashboard/new">Add New Password</a></li>
     </div>

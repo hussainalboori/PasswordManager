@@ -7,6 +7,7 @@ import (
 
 // Password represents a password entry in the database.
 type Password struct {
+	Id 	 int
 	Website  string
 	Username string
 	Password string // Stored as byte slice
@@ -16,7 +17,7 @@ type Password struct {
 func GetPasswordsByUserID(userID int, key []byte) ([]Password, error) {
 	// SQL query to select passwords by user ID
 	query := `
-		SELECT website, username, password
+		SELECT id, website, username, password
 		FROM passwords
 		WHERE user_id = ?;
 	`
@@ -40,9 +41,10 @@ func GetPasswordsByUserID(userID int, key []byte) ([]Password, error) {
 	// Iterate over the query results and store passwords in a slice
 	var passwords []Password
 	for rows.Next() {
+		var id int
 		var website, username string
 		var encryptedPassword []byte
-		err := rows.Scan(&website, &username, &encryptedPassword)
+		err := rows.Scan(&id, &website, &username, &encryptedPassword)
 		if err != nil {
 			log.Printf("Error scanning row: %v", err)
 			continue
@@ -54,6 +56,7 @@ func GetPasswordsByUserID(userID int, key []byte) ([]Password, error) {
 			continue
 		}
 		passwords = append(passwords, Password{
+			Id : id,
 			Website:  website,
 			Username: username,
 			Password: password,
@@ -67,46 +70,3 @@ func GetPasswordsByUserID(userID int, key []byte) ([]Password, error) {
 	return passwords, nil
 }
 
-// func GetPassword(UserID int, key []byte) (string, error) {
-// 	query := `
-// 		SELECT password
-// 		FROM passwords
-// 		WHERE user_id = ?;
-// 	`
-// 	db, err := sql.Open("sqlite3", "data.db")
-// 	if err != nil {
-// 		log.Printf("Error opening database: %v", err)
-// 		return "", err
-// 	}
-// 	defer db.Close()
-
-// 	rows, err := db.Query(query, UserID)
-// 	if err != nil {
-// 		log.Printf("Error executing query: %v", err)
-// 		return "", err
-// 	}
-// 	defer rows.Close()
-
-// 	var password []byte
-// 	for rows.Next() {
-// 		err := rows.Scan(&password)
-// 		if err != nil {
-// 			log.Printf("Error scanning row: %v", err)
-// 			continue
-// 		}
-// 	}
-
-// 	if err := rows.Err(); err != nil {
-// 		log.Printf("Error iterating over rows: %v", err)
-// 		return "", err
-// 	}
-// 	log.Printf("password:", password)
-// 	decryptedPassword, err := Decrypt(password, key)
-// 	if err != nil {
-// 		log.Printf("Error decrypting password: %v", err)
-// 		return "", err
-// 	}
-// 	stringPassword := string(decryptedPassword)
-// 	log.Printf("stringPassword:", stringPassword)
-// 	return stringPassword, nil
-// }

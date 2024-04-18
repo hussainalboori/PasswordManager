@@ -27,8 +27,9 @@ func main() {
 	http.HandleFunc("/login", handler.Login)
 	http.HandleFunc("/dashboard", handler.Dashboard)
 	http.HandleFunc("/logout", handler.Logout)
+	http.HandleFunc("/dashboard/delete", handler.HandleDeletePassword)
 	http.HandleFunc("/dashboard/new", handler.HandleNewPassword)
-	
+
 	log.Printf("Connect to our website through http://localhost%s", port)
 	http.ListenAndServe(port, nil)
 }
