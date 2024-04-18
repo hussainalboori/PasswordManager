@@ -81,5 +81,8 @@ func HandleNewPassword(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("Error inserting password: %v\n", err)
 		return
+	}else {
+		http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
 	}
+	
 }

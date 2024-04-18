@@ -1,23 +1,19 @@
 package handler
 
-
 import (
+	"log"
 	"net/http"
+	"text/template"
 )
 
 func Handleindex(w http.ResponseWriter, r *http.Request) {
-	// Check if there is a session
-	if sessionExists(r) {
-		// Redirect to dashboard
-		http.Redirect(w, r, "/dashboard", http.StatusFound)
+	_, _, exists := getSession(r)
+	if !exists {
+		template.Must(template.ParseFiles("templates/index.html")).Execute(w, nil)
+		log.Println("index page rendered")
+		return
 	} else {
-		// Render index.html
-		http.ServeFile(w, r, "templates/index.html")
+		http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
+		log.Println("already loged in redirected to dashboard")
 	}
-}
-
-func sessionExists(r *http.Request) bool {
-	// Check if the session cookie exists
-	_, err := r.Cookie("session")
-	return err == nil
 }

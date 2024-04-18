@@ -21,13 +21,14 @@ func main() {
 		log.Fatalf("Error opening database: %v", err)
 	}
 	defer db.Close()
-	port := ":8082" // Port to run the server on
+	port := ":8080" // Port to run the server on
 	http.HandleFunc("/", handler.Handleindex)
 	http.HandleFunc("/signup", handler.Signup)
 	http.HandleFunc("/login", handler.Login)
 	http.HandleFunc("/dashboard", handler.Dashboard)
 	http.HandleFunc("/logout", handler.Logout)
 	http.HandleFunc("/dashboard/new", handler.HandleNewPassword)
+	
 	log.Printf("Connect to our website through http://localhost%s", port)
 	http.ListenAndServe(port, nil)
 }
