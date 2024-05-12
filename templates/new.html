@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Password</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script>
         window.onload = function() {
             var form = document.getElementById("passwordForm");
@@ -39,22 +40,29 @@
     </script>
 </head>
 <body>
-    <h1>New Password</h1>
-    <p><strong>User ID:</strong> {{ .UserID }}</p>
-    <p><strong>Username:</strong> {{ .Username }}</p>
-    <form id="passwordForm" action="/dashboard/new" method="post">
-        <!-- Include a hidden input field for user ID -->
-        <input type="hidden" id="userId" name="userId" value="{{ .UserID }}">
-        <label for="website">Website:</label><br>
-        <input type="text" id="website" name="website" required><br><br>
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" required><br><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
-        <input id="generateButton" type="button" value="Generate Password"><br><br>
-        <input id="showPassword" type="checkbox">
-        <label for="showPassword">Show Password</label><br><br>
-        <input id="saveButton" type="button" value="Save Password">
-    </form>
+    <section>
+        <div id="NewPassword" class="vh-100 d-flex justify-content-center align-items-center" >
+            <div class="container-lg justify-content-center align-items-center">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-md-5 text-center text-md-start">
+                        <h1>
+                            <form id="passwordForm" action="/dashboard/new" method="POST">
+                                <label for="website">Website:</label><br>
+                                <input type="text" id="website" name="website" required><br>
+                                <label for="username">Username:</label><br>
+                                <input type="text" id="username" name="username" required><br>
+                                <label for="password">Password:</label><br>
+                                <input type="password" id="password" name="password" required><br>
+                                <input type="checkbox" id="showPassword"> Show Password<br>
+                                <button type="button" id="generateButton" class="btn btn-secondary btn-lg">Generate Password</button>
+                                <button type="button" id="saveButton" class="btn btn-secondary btn-lg">Save Password</button>
+                            </form>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

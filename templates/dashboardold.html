@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        .password {
+            display: none;
+        }
+    </style>
+   <script>
+    window.onload = function() {
+        var showPasswordsButton = document.getElementById("showPasswords");
+        var passwordItems = document.querySelectorAll(".password");
+
+        showPasswordsButton.onclick = function() {
+            passwordItems.forEach(function(item) {
+                if (item.style.display === "none") {
+                    item.style.display = "inline"; // Show passwords
+                    showPasswordsButton.textContent = "Hide Passwords";
+                } else {
+                    item.style.display = "none"; // Hide passwords
+                    showPasswordsButton.textContent = "Show Passwords";
+                }
+            });
+        };
+    };
+</script>
+</head>
+<body>
+    <h1>Welcome to the Dashboard</h1>
+    <div>
+        <p><strong>User ID:</strong> {{ .UserID }}</p>
+        <p><strong>Username:</strong> {{ .Username }}</p>
+        <form id="deleteForm" method="POST" action="/dashboard/delete">
+            <ul>
+                <!-- List of passwords here -->
+                {{ range .Passwords }}
+                    <li>
+                        <p><strong>Website:</strong> {{ .Website }}</p>
+                        <p><strong>Username:</strong> {{ .Username }}</p>
+                        <p><strong>Password:</strong> <span class="password">{{ .Password }}</span></p>
+                        <!-- Delete button -->
+                        <button type="submit" name="id" value="{{ .Id }}">Delete</button>
+                    </li>
+                {{ end }}
+            </ul>
+        </form>
+        <button id="showPasswords">Show Passwords</button>
+        <li><a href="/dashboard/new">Add New Password</a></li>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
