@@ -27,6 +27,7 @@ func main() {
 	http.HandleFunc("/login", handler.Login)
 	http.HandleFunc("/dashboard", handler.Dashboard)
 	http.HandleFunc("/logout", handler.Logout)
+	http.HandleFunc("/dashboard/password", handler.HandleGetPassword)
 	http.HandleFunc("/dashboard/delete", handler.HandleDeletePassword)
 	http.HandleFunc("/dashboard/new", handler.HandleNewPassword)
 	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("./static"))))
