@@ -1,11 +1,11 @@
-package main
+package handler
 
 import (
 	"database/sql"
 	"log"
 	"net/http"
 	"password-manger/data"
-	"password-manger/handler"
+	appHandler "password-manger/handler"
 	_ "modernc.org/sqlite"
 )
 
@@ -24,19 +24,15 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", handler.Handleindex)
-	mux.HandleFunc("/signup", handler.Signup)
-	mux.HandleFunc("/login", handler.Login)
-	mux.HandleFunc("/dashboard", handler.Dashboard)
-	mux.HandleFunc("/logout", handler.Logout)
-	mux.HandleFunc("/dashboard/password", handler.HandleGetPassword)
-	mux.HandleFunc("/dashboard/delete", handler.HandleDeletePassword)
-	mux.HandleFunc("/dashboard/new", handler.HandleNewPassword)
+	mux.HandleFunc("/", appHandler.Handleindex)
+	mux.HandleFunc("/signup", appHandler.Signup)
+	mux.HandleFunc("/login", appHandler.Login)
+	mux.HandleFunc("/dashboard", appHandler.Dashboard)
+	mux.HandleFunc("/logout", appHandler.Logout)
+	mux.HandleFunc("/dashboard/password", appHandler.HandleGetPassword)
+	mux.HandleFunc("/dashboard/delete", appHandler.HandleDeletePassword)
+	mux.HandleFunc("/dashboard/new", appHandler.HandleNewPassword)
 	mux.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("./static"))))
 
 	mux.ServeHTTP(w, r)
-}
-
-func main() {
-	http.ListenAndServe(":8080", http.HandlerFunc(Handler))
 }
