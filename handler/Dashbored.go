@@ -12,7 +12,7 @@ import (
 func Dashboard(w http.ResponseWriter, r *http.Request) {
 	_, sessionData, exists := getSession(r)
 	if !exists {
-		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}
 

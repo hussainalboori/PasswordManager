@@ -12,15 +12,16 @@ import (
 func HandleNewPassword(w http.ResponseWriter, r *http.Request) {
 	var id int
 	_, sessionData, exists := getSession(r)
+	if !exists {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
+
 	userIDstr := sessionData["userID"]
 	userID, err := strconv.Atoi(userIDstr)
 	if err != nil {
 		log.Printf("Error converting userID to int: %v\n", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-	if !exists {
-		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		return
 	}
 	userdata := struct {
