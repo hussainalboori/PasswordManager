@@ -3,66 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Password</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script>
-        window.onload = function() {
-            var form = document.getElementById("passwordForm");
-            var saveButton = document.getElementById("saveButton");
-            var generateButton = document.getElementById("generateButton");
-            var passwordInput = document.getElementById("password");
-            var showPasswordCheckbox = document.getElementById("showPassword");
-
-            // Function to generate a random password
-            function generateRandomPassword() {
-                var length = 12; // Set the desired length of the password
-                var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+";
-                var password = "";
-                for (var i = 0; i < length; i++) {
-                    var randomIndex = Math.floor(Math.random() * charset.length);
-                    password += charset.charAt(randomIndex);
-                }
-                return password;
-            }
-
-            generateButton.onclick = function() {
-                passwordInput.value = generateRandomPassword();
-            };
-
-            showPasswordCheckbox.onchange = function() {
-                passwordInput.type = showPasswordCheckbox.checked ? "text" : "password";
-            };
-
-            saveButton.onclick = function() {
-                form.submit();
-            };
-        }
-    </script>
+    <title>Add Password — JassPass</title>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
-<body>
-    <section>
-        <div id="NewPassword" class="vh-100 d-flex justify-content-center align-items-center" >
-            <div class="container-lg justify-content-center align-items-center">
-                <div class="row justify-content-center align-items-center">
-                    <div class="col-md-5 text-center text-md-start">
-                        <h1>
-                            <form id="passwordForm" action="/dashboard/new" method="POST">
-                                <label for="website">Website:</label><br>
-                                <input type="text" id="website" name="website" required><br>
-                                <label for="username">Username:</label><br>
-                                <input type="text" id="username" name="username" required><br>
-                                <label for="password">Password:</label><br>
-                                <input type="password" id="password" name="password" required><br>
-                                <input type="checkbox" id="showPassword"> Show Password<br>
-                                <button type="button" id="generateButton" class="btn btn-secondary btn-lg">Generate Password</button>
-                                <button type="button" id="saveButton" class="btn btn-secondary btn-lg">Save Password</button>
-                            </form>
-                        </h1>
-                    </div>
+<body style="display: flex; flex-direction: column; min-height: 100vh;">
+
+    <!-- Top Navigation Bar -->
+    <nav class="navbar-custom">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+            <a href="/" class="brand-logo">
+                <div class="brand-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                    </svg>
                 </div>
+                <span class="brand-gradient">JassPass</span>
+            </a>
+
+            <a href="/dashboard" class="btn-custom btn-secondary-custom" style="padding: 0.55rem 1rem; font-size: 0.9rem;">
+                Back to Dashboard
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Section -->
+    <main style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 3rem 1.5rem;" class="animate-fade-in">
+        
+        <div style="width: 100%; max-width: 520px;">
+            
+            <div class="glass-panel" style="padding: 2.5rem;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <div style="width: 52px; height: 52px; background: rgba(99, 102, 241, 0.15); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--accent-primary); margin: 0 auto 1rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                    </div>
+                    <h2 style="font-size: 1.6rem; font-weight: 800;">Add New Credential</h2>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem;">Store encrypted account login details in your vault.</p>
+                </div>
+
+                <form id="passwordForm" action="/dashboard/new" method="POST">
+                    
+                    <!-- Website Input -->
+                    <div class="form-group">
+                        <label for="website" class="form-label-custom">Website / Application Name</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m-0.002 0A11.95 11.95 0 0112 16.5c-3.14 0-6.009-1.206-8.156-3.189m0 0A8.96 8.96 0 013 12c0-.778.099-1.533.284-2.253" />
+                                </svg>
+                            </span>
+                            <input type="text" id="website" name="website" class="input-custom" placeholder="e.g. github.com" required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <!-- Username Input -->
+                    <div class="form-group">
+                        <label for="username" class="form-label-custom">Username or Email</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                                </svg>
+                            </span>
+                            <input type="text" id="username" name="username" class="input-custom" placeholder="name@example.com" required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <!-- Password Input + Controls -->
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <label for="password" class="form-label-custom" style="margin-bottom: 0;">Password</label>
+                            <label style="font-size: 0.8rem; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; gap: 0.35rem;">
+                                <input type="checkbox" id="showPassword" style="accent-color: var(--accent-primary);"> Show Password
+                            </label>
+                        </div>
+
+                        <div class="input-wrapper">
+                            <span class="input-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                                </svg>
+                            </span>
+                            <input type="password" id="password" name="password" class="input-custom" placeholder="Enter password or generate" required style="font-family: var(--font-mono);">
+                        </div>
+
+                        <!-- Real-time Strength Meter -->
+                        <div class="strength-bar-wrapper">
+                            <div class="strength-bar" id="strengthBar"></div>
+                        </div>
+                        <div class="strength-text" id="strengthText" style="color: var(--text-subtle);">Strength: None</div>
+                    </div>
+
+                    <!-- Password Generator Tool Box -->
+                    <div style="background: rgba(0, 0, 0, 0.2); border: 1px solid var(--border-card); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                            <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">Password Generator</span>
+                            <span style="font-size: 0.85rem; font-family: var(--font-mono); color: var(--accent-cyan); font-weight: 600;" id="lengthValue">16 chars</span>
+                        </div>
+                        
+                        <input type="range" id="lengthSlider" min="8" max="32" value="16" style="width: 100%; accent-color: var(--accent-cyan); margin-bottom: 1rem;">
+
+                        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                            <label style="font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.3rem;">
+                                <input type="checkbox" id="optSymbols" checked style="accent-color: var(--accent-cyan);"> Symbols (!@#$)
+                            </label>
+                            <label style="font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.3rem;">
+                                <input type="checkbox" id="optNumbers" checked style="accent-color: var(--accent-cyan);"> Numbers (0-9)
+                            </label>
+                        </div>
+
+                        <button type="button" id="generateButton" class="btn-custom btn-cyan-custom" style="width: 100%; padding: 0.65rem; font-size: 0.9rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                            </svg>
+                            Generate Strong Password
+                        </button>
+                    </div>
+
+                    <!-- Submit Buttons -->
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="/dashboard" class="btn-custom btn-secondary-custom" style="flex: 1; text-align: center;">Cancel</a>
+                        <button type="submit" id="saveButton" class="btn-custom btn-primary-custom" style="flex: 1;">Save Password</button>
+                    </div>
+
+                </form>
             </div>
         </div>
-    </section>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    </main>
+
+    <script>
+        const passwordInput = document.getElementById('password');
+        const showPasswordCheckbox = document.getElementById('showPassword');
+        const generateButton = document.getElementById('generateButton');
+        const lengthSlider = document.getElementById('lengthSlider');
+        const lengthValue = document.getElementById('lengthValue');
+        const optSymbols = document.getElementById('optSymbols');
+        const optNumbers = document.getElementById('optNumbers');
+        const strengthBar = document.getElementById('strengthBar');
+        const strengthText = document.getElementById('strengthText');
+
+        // Length slider update
+        lengthSlider.addEventListener('input', function() {
+            lengthValue.textContent = this.value + ' chars';
+        });
+
+        // Show/Hide password toggle
+        showPasswordCheckbox.addEventListener('change', function() {
+            passwordInput.type = this.checked ? 'text' : 'password';
+        });
+
+        // Password Generator
+        function generateRandomPassword() {
+            const length = parseInt(lengthSlider.value, 10);
+            let charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            if (optNumbers.checked) charset += "0123456789";
+            if (optSymbols.checked) charset += "!@#$%^&*()-_=+[]{}|;:,.<>?";
+
+            let password = "";
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * charset.length);
+                password += charset.charAt(randomIndex);
+            }
+            return password;
+        }
+
+        generateButton.onclick = function() {
+            passwordInput.value = generateRandomPassword();
+            updateStrengthMeter(passwordInput.value);
+        };
+
+        // Real-time Strength Evaluator
+        function evaluateStrength(pwd) {
+            if (!pwd) return { score: 0, text: 'None', color: 'transparent', width: '0%' };
+            let score = 0;
+            if (pwd.length >= 8) score += 1;
+            if (pwd.length >= 12) score += 1;
+            if (/[A-Z]/.test(pwd)) score += 1;
+            if (/[0-9]/.test(pwd)) score += 1;
+            if (/[^A-Za-z0-9]/.test(pwd)) score += 1;
+
+            if (score <= 2) {
+                return { score, text: 'Weak', color: 'var(--accent-rose)', width: '33%' };
+            } else if (score <= 4) {
+                return { score, text: 'Good', color: 'var(--accent-amber)', width: '66%' };
+            } else {
+                return { score, text: 'Strong', color: 'var(--accent-emerald)', width: '100%' };
+            }
+        }
+
+        function updateStrengthMeter(val) {
+            const res = evaluateStrength(val);
+            strengthBar.style.width = res.width;
+            strengthBar.style.backgroundColor = res.color;
+            strengthText.textContent = 'Strength: ' + res.text;
+            strengthText.style.color = res.color === 'transparent' ? 'var(--text-subtle)' : res.color;
+        }
+
+        passwordInput.addEventListener('input', function() {
+            updateStrengthMeter(this.value);
+        });
+    </script>
 </body>
 </html>

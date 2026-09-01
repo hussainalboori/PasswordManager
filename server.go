@@ -3,7 +3,9 @@ package main
 import (
 	"database/sql"
 	"log"
+	"net"
 	"net/http"
+	"os"
 	"password-manger/data"
 	"password-manger/handler"
 )
@@ -21,7 +23,34 @@ func main() {
 		log.Fatalf("Error opening database: %v", err)
 	}
 	defer db.Close()
-	port := ":8080" // Port to run the server on
+
+	portStr := os.Getenv("PORT")
+	var listener net.Listener
+
+	if portStr != "" {
+		if portStr[0] != ':' {
+			portStr = ":" + portStr
+		}
+		var err error
+		listener, err = net.Listen("tcp", portStr)
+		if err != nil {
+			log.Fatalf("Failed to listen on specified PORT %s: %v", portStr, err)
+		}
+	} else {
+		portsToTry := []string{":8080", ":8081", ":8082", ":8083"}
+		for _, p := range portsToTry {
+			l, err := net.Listen("tcp", p)
+			if err == nil {
+				listener = l
+				portStr = p
+				break
+			}
+		}
+		if listener == nil {
+			log.Fatalf("Could not find an available port (tried 8080-8083). Please set PORT env variable.")
+		}
+	}
+
 	http.HandleFunc("/", handler.Handleindex)
 	http.HandleFunc("/signup", handler.Signup)
 	http.HandleFunc("/login", handler.Login)
@@ -32,6 +61,11 @@ func main() {
 	http.HandleFunc("/dashboard/new", handler.HandleNewPassword)
 	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("./static"))))
 
-	log.Printf("Connect to our website through http://localhost%s", port)
-	http.ListenAndServe(port, nil)
+	log.Printf("Connect to our website through http://localhost%s", portStr)
+	if err := http.Serve(listener, nil); err != nil {
+		log.Fatalf("Server error: %v", err)
+	}
 }
+
+
+
