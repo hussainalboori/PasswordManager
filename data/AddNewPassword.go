@@ -18,7 +18,7 @@ func InsertPassword(userID int, website, username string, password []byte) error
 	`
 
 	// Open a connection to the SQLite3 database
-	db, err := sql.Open("sqlite3", GetDBPath())
+	db, err := sql.Open("sqlite", GetDBPath())
 	if err != nil {
 		return err
 	}

@@ -26,7 +26,7 @@ func CreateDatabaseIfNotExists(dbFilePath string) error {
 		fmt.Printf("Database file '%s' does not exist. Creating a new database...\n", dbFilePath)
 
 		// Create a new database file
-		db, err := sql.Open("sqlite3", dbFilePath)
+		db, err := sql.Open("sqlite", dbFilePath)
 		if err != nil {
 			return err
 		}

@@ -12,8 +12,9 @@ func InsertUser(username, email, passwordHash string, key []byte) error {
 		VALUES (?, ?, ?, ?);
 	`
 
-	// Open a connection to the SQLite3 database
-	db, err := sql.Open("sqlite3", GetDBPath())
+	_ = CreateDatabaseIfNotExists("")
+	// Open a connection to the SQLite database
+	db, err := sql.Open("sqlite", GetDBPath())
 	if err != nil {
 		log.Printf("Error opening database: %v", err)
 		return err

@@ -23,7 +23,7 @@ func GetPasswordsByUserID(userID int, key []byte) ([]Password, error) {
 	`
 
 	// Open a connection to the SQLite3 database
-	db, err := sql.Open("sqlite3", GetDBPath())
+	db, err := sql.Open("sqlite", GetDBPath())
 	if err != nil {
 		log.Printf("Error opening database: %v", err)
 		return nil, err

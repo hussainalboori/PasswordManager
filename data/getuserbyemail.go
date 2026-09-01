@@ -17,7 +17,8 @@ type User struct {
 func GetUserByEmail(email string) (*User, error) {
 	var user User
 
-	db, err := sql.Open("sqlite3", GetDBPath())
+	_ = CreateDatabaseIfNotExists("")
+	db, err := sql.Open("sqlite", GetDBPath())
 	if err != nil {
 		log.Printf("Error opening database: %v", err)
 		return nil, err
@@ -37,8 +38,9 @@ func GetUserByEmail(email string) (*User, error) {
 }
 
 func GetUserByID(userID int) (*User, error) {
+	_ = CreateDatabaseIfNotExists("")
 	// Open a database connection
-	db, err := sql.Open("sqlite3", GetDBPath())
+	db, err := sql.Open("sqlite", GetDBPath())
 	if err != nil {
 		return nil, err
 	}

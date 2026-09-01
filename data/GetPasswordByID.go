@@ -20,7 +20,7 @@ func GetPasswordsMetadataByUserID(userID int) ([]PasswordMetadata, error) {
         WHERE user_id = ?;
     `
 
-    db, err := sql.Open("sqlite3", GetDBPath())
+    db, err := sql.Open("sqlite", GetDBPath())
     if err != nil {
         log.Printf("Error opening database: %v", err)
         return nil, err
@@ -54,7 +54,7 @@ func GetPasswordsMetadataByUserID(userID int) ([]PasswordMetadata, error) {
 func GetPasswordByID(passwordID int, userID int) (string, error) {
     query := `SELECT password FROM passwords WHERE id = ? AND user_id = ?;`
 
-    db, err := sql.Open("sqlite3", GetDBPath())
+    db, err := sql.Open("sqlite", GetDBPath())
     if err != nil {
         log.Printf("Error opening database: %v", err)
         return "", err
