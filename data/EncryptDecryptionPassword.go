@@ -58,7 +58,7 @@ func Decrypt(ciphertext []byte, secretKey []byte) (string, error) {
 }
 
 func GetKeyByID(id int) ([]byte, error) {
-	db, err := sql.Open("sqlite3", "data.db")
+	db, err := sql.Open("sqlite3", GetDBPath())
 	if err != nil {
 		return nil, err
 	}

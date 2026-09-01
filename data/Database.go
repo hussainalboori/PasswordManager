@@ -8,7 +8,17 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+func GetDBPath() string {
+	if os.Getenv("VERCEL") != "" {
+		return "/tmp/data.db"
+	}
+	return "data.db"
+}
+
 func CreateDatabaseIfNotExists(dbFilePath string) error {
+	if dbFilePath == "" {
+		dbFilePath = GetDBPath()
+	}
 	// Check if the database file exists
 	_, err := os.Stat(dbFilePath)
 	if os.IsNotExist(err) {
