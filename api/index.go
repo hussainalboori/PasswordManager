@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"password-manger/data"
 	appHandler "password-manger/handler"
+	"password-manger/static"
 	_ "modernc.org/sqlite"
 )
 
@@ -32,7 +33,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	mux.HandleFunc("/dashboard/password", appHandler.HandleGetPassword)
 	mux.HandleFunc("/dashboard/delete", appHandler.HandleDeletePassword)
 	mux.HandleFunc("/dashboard/new", appHandler.HandleNewPassword)
-	mux.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("./static"))))
+	mux.Handle("/static/", http.StripPrefix("/static", static.Handler()))
 
 	mux.ServeHTTP(w, r)
 }

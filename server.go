@@ -8,6 +8,7 @@ import (
 	"os"
 	"password-manger/data"
 	"password-manger/handler"
+	"password-manger/static"
 )
 
 func main() {
@@ -59,7 +60,7 @@ func main() {
 	http.HandleFunc("/dashboard/password", handler.HandleGetPassword)
 	http.HandleFunc("/dashboard/delete", handler.HandleDeletePassword)
 	http.HandleFunc("/dashboard/new", handler.HandleNewPassword)
-	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("./static"))))
+	http.Handle("/static/", http.StripPrefix("/static", static.Handler()))
 
 	log.Printf("Connect to our website through http://localhost%s", portStr)
 	if err := http.Serve(listener, nil); err != nil {
