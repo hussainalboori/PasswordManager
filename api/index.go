@@ -1,4 +1,4 @@
-package handler
+package main
 
 import (
 	"database/sql"
@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"password-manger/data"
 	"password-manger/handler"
+	_ "modernc.org/sqlite"
 )
 
 func Handler(w http.ResponseWriter, r *http.Request) {
@@ -14,7 +15,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("Error creating database: %v", err)
 	} else {
-		db, err := sql.Open("sqlite3", dbFilePath)
+		db, err := sql.Open("sqlite", dbFilePath)
 		if err != nil {
 			log.Printf("Error opening database: %v", err)
 		} else {
@@ -34,4 +35,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	mux.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir("./static"))))
 
 	mux.ServeHTTP(w, r)
+}
+
+func main() {
+	http.ListenAndServe(":8080", http.HandlerFunc(Handler))
 }

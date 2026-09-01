@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"password-manger/data"
 	"strconv"
-	"text/template"
 )
 
 func Dashboard(w http.ResponseWriter, r *http.Request) {
@@ -34,26 +33,17 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tmpl := template.Must(template.ParseFiles("templates/dashboard.html"))
-
-	// Data to pass to the template
 	dashboardData := struct {
-		UserID   string
-		Username string
+		UserID    string
+		Username  string
 		Passwords []data.PasswordMetadata
 	}{
-		UserID:   userID,
-		Username: username,
+		UserID:    userID,
+		Username:  username,
 		Passwords: metadata,
 	}
 
-	// Execute the template
-	err = tmpl.Execute(w, dashboardData)
-	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		log.Printf("Error executing template: %v", err)
-		return
-	}
+	renderTemplateFile(w, "templates/dashboard.html", dashboardData)
 }
 
 // HandleGetPassword returns a single decrypted password as JSON for an authenticated user

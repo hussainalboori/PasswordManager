@@ -3,13 +3,12 @@ package handler
 import (
 	"log"
 	"net/http"
-	"text/template"
 )
 
 func Handleindex(w http.ResponseWriter, r *http.Request) {
 	_, _, exists := getSession(r)
 	if !exists {
-		template.Must(template.ParseFiles("templates/index.html")).Execute(w, nil)
+		renderTemplateFile(w, "templates/index.html", nil)
 		log.Println("index page rendered")
 		return
 	} else {

@@ -1,12 +1,10 @@
 package handler
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"password-manger/data"
 	"strconv"
-	"text/template"
 )
 
 func HandleNewPassword(w http.ResponseWriter, r *http.Request) {
@@ -33,20 +31,8 @@ func HandleNewPassword(w http.ResponseWriter, r *http.Request) {
 	}
 	id = userID
 	if r.Method == "GET" {
-		// Load the template file
-		tmpl, err := template.ParseFiles("templates/new.html")
-		if err != nil {
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-			fmt.Printf("Error loading template file: %v\n", err)
-			return
-		}
-
-		errsen := tmpl.Execute(w, userdata)
-		if errsen != nil {
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-			fmt.Printf("Error executing template: %v\n", err)
-			return
-		}
+		renderTemplateFile(w, "templates/new.html", userdata)
+		return
 	}
 
 	err = r.ParseForm()

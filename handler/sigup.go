@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"html/template"
 	"log"
 	"net/http"
 	"password-manger/data"
@@ -9,13 +8,7 @@ import (
 
 func Signup(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/signup.html"))
-		err := tmpl.Execute(w, nil)
-		if err != nil {
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-			log.Printf("Error executing template: %v", err)
-			return
-		}
+		renderTemplateFile(w, "templates/signup.html", nil)
 		return // Return to exit the function after rendering the template
 	}
 

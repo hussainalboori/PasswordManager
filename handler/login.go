@@ -6,7 +6,6 @@ import (
     "net/http"
     "password-manger/data"
     "strconv"
-    "text/template"
 )
 
 var sessions = make(map[string]map[string]string)
@@ -74,12 +73,7 @@ func deleteSession(w http.ResponseWriter, r *http.Request) {
 // Login handler
 func Login(w http.ResponseWriter, r *http.Request) {
     if r.Method == "GET" {
-        tmpl := template.Must(template.ParseFiles("templates/login.html"))
-        err := tmpl.Execute(w, nil)
-        if err != nil {
-            http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-            return
-        }
+        renderTemplateFile(w, "templates/login.html", nil)
         return
     }
 
